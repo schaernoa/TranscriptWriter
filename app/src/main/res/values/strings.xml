@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">TranscriptWriter</string>
     <string name="action_settings">Settings</string>
+    <string name="interview_dialog">Neues Interview erstellen</string>
+    <string name="positive">OK</string>
+    <string name="negative">CANCEL</string>
+    <string name="hint_string">Interview Name</string>
 </resources>

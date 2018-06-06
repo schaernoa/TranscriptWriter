@@ -8,8 +8,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Instanz variablen
+    ArrayList<String> interview = new ArrayList<String>();
+    ArrayAdapter<String> listAdapter;
+    ListView interviewList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +32,23 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                InterviewDialog dialog = new InterviewDialog();
+                dialog.show(getFragmentManager(), "NoticeDialogFragment");
+                interview.add("String hinzugefügt");
+                listUpdate(interview);
             }
         });
+
+        /*Adapter erstellen und listView Objekt holen*/
+        listAdapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_list_item_1, interview);
+        interviewList = (ListView) findViewById(R.id.interviewList);
+
+        /*Strings dem Array hinzufügen*/
+        interview.add("erster String");//temp
+        interview.add("zweiter String");//temp
+        interview.add("dritter Sting");//temp
+        listUpdate(interview);
     }
 
     @Override
@@ -48,5 +71,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void listUpdate(ArrayList<String> list) {
+        interviewList.setAdapter(listAdapter);
+    }
+
+    public getTextEditValue() {
+        EditText interviewName = (EditText) findViewById(R.id.interview_name);
+        return interviewName.getText().toString();
     }
 }
