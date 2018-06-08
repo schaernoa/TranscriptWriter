@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<String>(getApplicationContext(),
                 android.R.layout.simple_list_item_1, interviewNameList);
         listView = (ListView) findViewById(R.id.interviewList);
+        readDataName();
 
         Log.d("CHECK","vorher");
         if (checkPermission()) {
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 f.mkdirs();
                 Toast.makeText(this, "Ordner erstellt",
                     Toast.LENGTH_LONG).show();
+
             }
             else {
                 Toast.makeText(this, "Ordner wurde bereits erstellt",
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String foldername = interviewNameList.get(position);
                 Toast.makeText(getApplicationContext(), "Gugus element " + foldername, Toast.LENGTH_LONG).show();
-                Intent myIntent = new Intent(MainActivity.this, AudioActivity.class);
+                Intent myIntent = new Intent(MainActivity.this, AudioText.class);
                 myIntent.putExtra("foldername", foldername);
                 startActivity(myIntent);
             }
@@ -162,6 +164,19 @@ public class MainActivity extends AppCompatActivity {
             } else if (file.isDirectory()) {
                 listf(file.getAbsolutePath(), files);
             }
+        }
+    }
+
+    public void readDataName() {
+        String path = Environment.getExternalStorageDirectory().toString() + pfad_main;
+        File directory = new File(path);
+        File[] files = directory.listFiles();
+        for (int i = 0; i < files.length; i++)
+        {
+            String string = files[i].toString();
+            string = string.substring(string.lastIndexOf("/") + 1);
+            interviewNameList.add(string);
+            listUpdate();
         }
     }
 }

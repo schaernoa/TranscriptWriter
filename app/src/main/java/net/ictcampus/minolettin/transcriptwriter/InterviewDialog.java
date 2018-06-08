@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.LayoutInflater;
@@ -55,6 +56,9 @@ public class InterviewDialog extends DialogFragment {
                                 Toast.makeText(a, "Ordner erstellt",
                                         Toast.LENGTH_LONG).show();
                                 interviewNameList.add( interviewName.getText().toString() ) ;
+                                Intent myIntent = new Intent(a, AudioActivity.class);
+                                myIntent.putExtra("foldername", interviewName.getText().toString());
+                                startActivity(myIntent);
                             }
                             else {
                                 Toast.makeText(a, "Ordner wurde bereits erstellt",
