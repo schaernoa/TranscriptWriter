@@ -19,17 +19,6 @@ public class FABListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (folder_main != null){
-            File f = new File(Environment.getExternalStorageDirectory(), folder_main);
-            if (!f.exists()) {
-                f.mkdirs();
-                Toast.makeText(activity, "Ordner erstellt",
-                        Toast.LENGTH_LONG).show();
-            }
-            else {
-                Toast.makeText(activity, "Ordner wurde bereits erstellt",
-                        Toast.LENGTH_LONG).show();
-            }
-        }
+        Toast.makeText(activity, "Safe no ni gspicheret (es würd)",Toast.LENGTH_SHORT).show();
     }
 }

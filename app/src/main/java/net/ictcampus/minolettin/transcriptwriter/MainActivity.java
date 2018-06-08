@@ -1,5 +1,6 @@
 package net.ictcampus.minolettin.transcriptwriter;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
@@ -12,12 +13,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -73,6 +76,17 @@ public class MainActivity extends AppCompatActivity {
         else{
             requestPermission();
         }
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String foldername = interviewNameList.get(position);
+                Toast.makeText(getApplicationContext(), "Gugus element " + foldername, Toast.LENGTH_LONG).show();
+                Intent myIntent = new Intent(MainActivity.this, AudioActivity.class);
+                myIntent.putExtra("foldername", foldername);
+                startActivity(myIntent);
+            }
+        });
     }
 
     @Override
@@ -135,5 +149,19 @@ public class MainActivity extends AppCompatActivity {
                 RECORD_AUDIO);
         return result == PackageManager.PERMISSION_GRANTED &&
                 result1 == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public void listf(String directoryName, ArrayList<File> files) {
+        File directory = new File(directoryName);
+
+        // get all the files from a directory
+        File[] fList = directory.listFiles();
+        for (File file : fList) {
+            if (file.isFile()) {
+                files.add(file);
+            } else if (file.isDirectory()) {
+                listf(file.getAbsolutePath(), files);
+            }
+        }
     }
 }

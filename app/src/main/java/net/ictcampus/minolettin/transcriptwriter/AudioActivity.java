@@ -1,12 +1,10 @@
 package net.ictcampus.minolettin.transcriptwriter;
 
-import android.content.pm.PackageManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,9 +14,6 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.Timer;
-
-import static android.Manifest.permission.RECORD_AUDIO;
-import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class AudioActivity extends AppCompatActivity {
 
@@ -36,11 +31,13 @@ public class AudioActivity extends AppCompatActivity {
     String AudioSavePathInDevice;
     private String folder_main = "TranscriptWriter";
 
+    private String foldername;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_audio);
 
         txtTime = (TextView) findViewById(R.id.txtTime);
         txtPerson1 = (TextView) findViewById(R.id.txtPerson1);
@@ -51,6 +48,9 @@ public class AudioActivity extends AppCompatActivity {
 
         btnStarten.setText("Starten");
 
+        Intent intent = getIntent();
+        //Zusatzinformation aus dem Internet laden
+        foldername = intent.getStringExtra("foldername");
 
         btnStarten.setOnClickListener(new ButtonListener(btnStarten,this));
         fabSafe.setOnClickListener(new FABListener(folder_main,this));
@@ -60,10 +60,10 @@ public class AudioActivity extends AppCompatActivity {
         if (button.equals("Starten")) {
             Log.d("PERMISSION", "erfolgreich");
             if (person % 2 == 1) {
-                AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + folder_main + "/Person1_" + person + ".3gp";
+                AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + folder_main + "/" + foldername +  "/Person1_" + person + ".3gp";
             }
             else {
-                AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + folder_main + "/Person2_" + person + ".3gp";
+                AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + folder_main + "/" + foldername +  "/Person2_" + person + ".3gp";
             }
             Log.d("PFAD", AudioSavePathInDevice);
 
