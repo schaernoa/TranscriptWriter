@@ -50,9 +50,14 @@ public class InterviewDialog extends DialogFragment {
                         MainActivity a = (MainActivity) getActivity();
 
                         if (interviewName.getText().toString() != null){
-                            File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/TranscriptWriter/", interviewName.getText().toString());
+                            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/TranscriptWriter/";
+                            File f = new File(path, interviewName.getText().toString());
                             if (!f.exists()) {
                                 f.mkdirs();
+                                File audioFile = new File(path + interviewName.getText().toString() + "/", "Audio");
+                                audioFile.mkdirs();
+                                File textFile = new File(path + interviewName.getText().toString() + "/", "Text");
+                                textFile.mkdirs();
                                 Toast.makeText(a, "Ordner erstellt",
                                         Toast.LENGTH_LONG).show();
                                 interviewNameList.add( interviewName.getText().toString() ) ;

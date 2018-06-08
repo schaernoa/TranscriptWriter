@@ -53,17 +53,21 @@ public class AudioActivity extends AppCompatActivity {
         foldername = intent.getStringExtra("foldername");
 
         btnStarten.setOnClickListener(new ButtonListener(btnStarten,this));
-        fabSafe.setOnClickListener(new FABListener(folder_main,this));
+        fabSafe.setOnClickListener(new FABListener(folder_main,this, foldername));
     }
 
     public void startRecording(String button) {
         if (button.equals("Starten")) {
             Log.d("PERMISSION", "erfolgreich");
             if (person % 2 == 1) {
-                AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + folder_main + "/" + foldername +  "/Person1_" + person + ".3gp";
+                AudioSavePathInDevice = Environment.getExternalStorageDirectory()
+                        .getAbsolutePath() + "/" + folder_main + "/"
+                        + foldername + "/Audio/Person1_" + person + ".3gp";
             }
             else {
-                AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + folder_main + "/" + foldername +  "/Person2_" + person + ".3gp";
+                AudioSavePathInDevice = Environment.getExternalStorageDirectory()
+                        .getAbsolutePath() + "/" + folder_main + "/"
+                        + foldername +  "/Audio/Person2_" + person + ".3gp";
             }
             Log.d("PFAD", AudioSavePathInDevice);
 
