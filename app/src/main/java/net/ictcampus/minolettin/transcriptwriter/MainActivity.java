@@ -1,25 +1,28 @@
 package net.ictcampus.minolettin.transcriptwriter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    // Instanz variablen
-    ArrayList<String> interview = new ArrayList<String>();
-    ArrayAdapter<String> listAdapter;
-    ListView interviewList;
+    /*Instanz variablen*/
+    ArrayList<String> interviewNameList = new ArrayList<String>();
+    ArrayAdapter<String> adapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,27 +31,40 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+
+        File file = new File(getApplicationContext().getFilesDir(), "TranscriptWriter.txt");
+        String path = getApplicationContext().getFilesDir().getAbsolutePath();
+
+        Toast.makeText(getApplicationContext(), path, Toast.LENGTH_LONG).show();
+        Log.d("pfad", path);
+
+
+       /* AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "Person1_" + person + ".3gp";*/
+
+        /*FloatingActionButton ClickListener*/
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                InterviewDialog dialog = new InterviewDialog();
+                /*Neues InterviewDialog Objekt
+                * Parameter: ArrayList -> Interview Namen*/
+                InterviewDialog dialog = new InterviewDialog(interviewNameList);
+                /*Dialog anzeigen*/
                 dialog.show(getFragmentManager(), "NoticeDialogFragment");
-                interview.add("String hinzugefügt");
-                listUpdate(interview);
             }
         });
 
         /*Adapter erstellen und listView Objekt holen*/
-        listAdapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_list_item_1, interview);
-        interviewList = (ListView) findViewById(R.id.interviewList);
+        adapter = new ArrayAdapter<String>(getApplicationContext(),
+                android.R.layout.simple_list_item_1, interviewNameList);
+        listView = (ListView) findViewById(R.id.interviewList);
 
         /*Strings dem Array hinzufügen*/
-        interview.add("erster String");//temp
-        interview.add("zweiter String");//temp
-        interview.add("dritter Sting");//temp
-        listUpdate(interview);
+        interviewNameList.add("erster String");//temp
+        interviewNameList.add("zweiter String");//temp
+        interviewNameList.add("dritter Sting");//temp
+        listUpdate();
     }
 
     @Override
@@ -73,12 +89,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void listUpdate(ArrayList<String> list) {
-        interviewList.setAdapter(listAdapter);
-    }
-
-    public getTextEditValue() {
-        EditText interviewName = (EditText) findViewById(R.id.interview_name);
-        return interviewName.getText().toString();
+    /*Die ListView wird aktualisiert*/
+    public void listUpdate() {
+        listView.setAdapter(adapter);
     }
 }
