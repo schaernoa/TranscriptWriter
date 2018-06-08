@@ -6,12 +6,16 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 
+@SuppressLint("ValidFragment")
 public class InterviewDialog extends DialogFragment {
 
     /*Instanz Variablen*/
@@ -41,10 +45,24 @@ public class InterviewDialog extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         /*Wert des Eingabefelds holen und InterviewNameList Wert hinzufügen*/
                         EditText interviewName = (EditText) dialogView.findViewById(R.id.interview_name);
-                        interviewNameList.add( interviewName.getText().toString() ) ;
+
+                        MainActivity a = (MainActivity) getActivity();
+
+                        if (interviewName.getText().toString() != null){
+                            File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/TranscriptWriter/", interviewName.getText().toString());
+                            if (!f.exists()) {
+                                f.mkdirs();
+                                Toast.makeText(a, "Ordner erstellt",
+                                        Toast.LENGTH_LONG).show();
+                                interviewNameList.add( interviewName.getText().toString() ) ;
+                            }
+                            else {
+                                Toast.makeText(a, "Ordner wurde bereits erstellt",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
                         /*Aktuelle Activity zur MainActivity Casten und ein
                         Update der ListView durchführen*/
-                        MainActivity a = (MainActivity) getActivity();
                         a.listUpdate();
                     }
                 })
@@ -58,3 +76,4 @@ public class InterviewDialog extends DialogFragment {
         return builder.create();
     }
 }
+

@@ -1,8 +1,11 @@
 package net.ictcampus.minolettin.transcriptwriter;
 
-import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,8 +17,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
+
+import static android.Manifest.permission.RECORD_AUDIO;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static net.ictcampus.minolettin.transcriptwriter.AudioActivity.RequestPermissionCode;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> interviewNameList = new ArrayList<String>();
     ArrayAdapter<String> adapter;
     ListView listView;
+    String pfad_main = "/TranscriptWriter";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,24 +38,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-
-        File file = new File(getApplicationContext().getFilesDir(), "TranscriptWriter.txt");
-        String path = getApplicationContext().getFilesDir().getAbsolutePath();
-
-        Toast.makeText(getApplicationContext(), path, Toast.LENGTH_LONG).show();
-        Log.d("pfad", path);
-
-
-       /* AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "Person1_" + person + ".3gp";*/
-
         /*FloatingActionButton ClickListener*/
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 /*Neues InterviewDialog Objekt
-                * Parameter: ArrayList -> Interview Namen*/
+                 * Parameter: ArrayList -> Interview Namen*/
                 InterviewDialog dialog = new InterviewDialog(interviewNameList);
                 /*Dialog anzeigen*/
                 dialog.show(getFragmentManager(), "NoticeDialogFragment");
@@ -60,11 +56,23 @@ public class MainActivity extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, interviewNameList);
         listView = (ListView) findViewById(R.id.interviewList);
 
-        /*Strings dem Array hinzufügen*/
-        interviewNameList.add("erster String");//temp
-        interviewNameList.add("zweiter String");//temp
-        interviewNameList.add("dritter Sting");//temp
-        listUpdate();
+        Log.d("CHECK","vorher");
+        if (checkPermission()) {
+            Log.d("CHECK","CHECKED");
+            File f = new File(Environment.getExternalStorageDirectory(), pfad_main);
+            if (!f.exists()) {
+                f.mkdirs();
+                Toast.makeText(this, "Ordner erstellt",
+                    Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(this, "Ordner wurde bereits erstellt",
+                    Toast.LENGTH_LONG).show();
+            }
+        }
+        else{
+            requestPermission();
+        }
     }
 
     @Override
@@ -92,5 +100,40 @@ public class MainActivity extends AppCompatActivity {
     /*Die ListView wird aktualisiert*/
     public void listUpdate() {
         listView.setAdapter(adapter);
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, new
+                String[]{WRITE_EXTERNAL_STORAGE, RECORD_AUDIO}, RequestPermissionCode);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case RequestPermissionCode:
+                if (grantResults.length > 0) {
+                    boolean StoragePermission = grantResults[0] ==
+                            PackageManager.PERMISSION_GRANTED;
+                    boolean RecordPermission = grantResults[1] ==
+                            PackageManager.PERMISSION_GRANTED;
+
+                    if (StoragePermission && RecordPermission) {
+                        Toast.makeText(this, "Permission Granted",
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show();
+                    }
+                }
+                break;
+        }
+    }
+
+    private boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getApplicationContext(),
+                WRITE_EXTERNAL_STORAGE);
+        int result1 = ContextCompat.checkSelfPermission(getApplicationContext(),
+                RECORD_AUDIO);
+        return result == PackageManager.PERMISSION_GRANTED &&
+                result1 == PackageManager.PERMISSION_GRANTED;
     }
 }
