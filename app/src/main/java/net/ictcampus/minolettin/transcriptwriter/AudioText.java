@@ -73,5 +73,8 @@ public class AudioText extends AppCompatActivity {
                 listUpdate();
             }
         }
+        else {
+
+        }
     }
 }
