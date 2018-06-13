@@ -22,7 +22,7 @@ public class FABListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(activity, "Safe no ni gspicheret (es würd)",Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "gespeichert",Toast.LENGTH_SHORT).show();
         Intent myIntent = new Intent(activity, AudioText.class);
         myIntent.putExtra("foldername", foldername);
         activity.startActivity(myIntent);

@@ -66,12 +66,12 @@ public class AudioActivity extends AppCompatActivity {
             if (person % 2 == 1) {
                 AudioSavePathInDevice = Environment.getExternalStorageDirectory()
                         .getAbsolutePath() + PFAD_MAIN + "/"
-                        + foldername + "/Audio/Person1_" + person + ".3gp";
+                        + foldername + "/Audio/Person1_" + person + ".amr";
             }
             else {
                 AudioSavePathInDevice = Environment.getExternalStorageDirectory()
                         .getAbsolutePath() + PFAD_MAIN + "/"
-                        + foldername +  "/Audio/Person2_" + person + ".3gp";
+                        + foldername +  "/Audio/Person2_" + person + ".amr";
             }
             Log.d("PFAD", AudioSavePathInDevice);
 
@@ -133,8 +133,8 @@ public class AudioActivity extends AppCompatActivity {
     private void MediaRecorderReady() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mediaRecorder.setAudioEncoder(MediaRecorder.OutputFormat.AMR_NB);
+        mediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+        mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         mediaRecorder.setOutputFile(AudioSavePathInDevice);
     }
 }
