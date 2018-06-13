@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> interviewNameList = new ArrayList<String>();
     ArrayAdapter<String> adapter;
     ListView listView;
-    String pfad_main = "/TranscriptWriter";
+    public static final String PFAD_MAIN = "/TranscriptWriter";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,13 +57,12 @@ public class MainActivity extends AppCompatActivity {
         /*Adapter erstellen und listView Objekt holen*/
         adapter = new ArrayAdapter<String>(getApplicationContext(),
                 android.R.layout.simple_list_item_1, interviewNameList);
+
         listView = (ListView) findViewById(R.id.interviewList);
         readDataName();
 
-        Log.d("CHECK","vorher");
         if (checkPermission()) {
-            Log.d("CHECK","CHECKED");
-            File f = new File(Environment.getExternalStorageDirectory(), pfad_main);
+            File f = new File(Environment.getExternalStorageDirectory(), PFAD_MAIN);
             if (!f.exists()) {
                 f.mkdirs();
                 Toast.makeText(this, "Ordner erstellt",
@@ -83,35 +82,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String foldername = interviewNameList.get(position);
-                Toast.makeText(getApplicationContext(), "Gugus element " + foldername, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),  foldername, Toast.LENGTH_LONG).show();
                 Intent myIntent = new Intent(MainActivity.this, AudioText.class);
                 myIntent.putExtra("foldername", foldername);
                 startActivity(myIntent);
             }
         });
     }
-
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }*/
 
     /*Die ListView wird aktualisiert*/
     public void listUpdate() {
@@ -168,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void readDataName() {
-        String path = Environment.getExternalStorageDirectory().toString() + pfad_main;
+        String path = Environment.getExternalStorageDirectory().toString() + PFAD_MAIN;
         File directory = new File(path);
         File[] files = directory.listFiles();
         if (files != null) {

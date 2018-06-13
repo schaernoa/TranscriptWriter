@@ -15,9 +15,11 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.Timer;
 
+import static net.ictcampus.minolettin.transcriptwriter.MainActivity.PFAD_MAIN;
+
 public class AudioActivity extends AppCompatActivity {
 
-    private TextView txtTime, txtPerson1, txtPerson2, txtInfo;
+    private TextView txtTime, txtPerson1, txtPerson2, txtInfo, txtInfoPerson;
     private Button btnStarten;
 
     private Timer timer;
@@ -43,10 +45,13 @@ public class AudioActivity extends AppCompatActivity {
         txtPerson1 = (TextView) findViewById(R.id.txtPerson1);
         txtPerson2 = (TextView) findViewById(R.id.txtPerson2);
         txtInfo = (TextView) findViewById(R.id.txtInfo);
+        txtInfoPerson = (TextView) findViewById(R.id.txtInfoPerson);
         btnStarten = (Button) findViewById(R.id.btnStarten);
         fabSafe = (FloatingActionButton) findViewById(R.id.fabSafe);
 
         btnStarten.setText("Starten");
+        txtPerson1.setBackgroundColor(Color.GREEN);
+        txtPerson2.setBackgroundColor(Color.LTGRAY);
 
         Intent intent = getIntent();
         //Zusatzinformation aus dem Internet laden
@@ -58,15 +63,14 @@ public class AudioActivity extends AppCompatActivity {
 
     public void startRecording(String button) {
         if (button.equals("Starten")) {
-            Log.d("PERMISSION", "erfolgreich");
             if (person % 2 == 1) {
                 AudioSavePathInDevice = Environment.getExternalStorageDirectory()
-                        .getAbsolutePath() + "/" + folder_main + "/"
+                        .getAbsolutePath() + PFAD_MAIN + "/"
                         + foldername + "/Audio/Person1_" + person + ".3gp";
             }
             else {
                 AudioSavePathInDevice = Environment.getExternalStorageDirectory()
-                        .getAbsolutePath() + "/" + folder_main + "/"
+                        .getAbsolutePath() + PFAD_MAIN + "/"
                         + foldername +  "/Audio/Person2_" + person + ".3gp";
             }
             Log.d("PFAD", AudioSavePathInDevice);
@@ -90,13 +94,15 @@ public class AudioActivity extends AppCompatActivity {
 
             btnStarten.setText("Stoppen");
             if (person % 2 == 1) {
-                txtInfo.setText("Person1 ist dran\n'Stoppen' um Aufnahme zu beenden");
+                txtInfoPerson.setText("Person1 ist dran");
+                txtInfo.setText("'Stoppen' um Aufnahme zu beenden");
             }
             else {
-                txtInfo.setText("Person2 ist dran\n'Stoppen' um Aufnahme zu beenden");
+                txtInfoPerson.setText("Person2 ist dran");
+                txtInfo.setText("'Stoppen' um Aufnahme zu beenden");
             }
             Toast.makeText(this, "Recording started",
-                        Toast.LENGTH_SHORT).show();
+                    Toast.LENGTH_SHORT).show();
 
         }
         else{
@@ -107,13 +113,15 @@ public class AudioActivity extends AppCompatActivity {
             txtTime.setText("00:00");
 
             if (person % 2 == 0) {
-                txtInfo.setText("Person1 ist dran\n'Starten' um Audio aufzunehmen");
+                txtInfoPerson.setText("Person1 ist dran");
+                txtInfo.setText("'Starten' um Audio aufzunehmen");
                 txtPerson1.setBackgroundColor(Color.GREEN);
-                txtPerson2.setBackgroundColor(Color.GRAY);
+                txtPerson2.setBackgroundColor(Color.LTGRAY);
             }
             else {
-                txtInfo.setText("Person2 ist dran\n'Starten' um Audio aufzunehmen");
-                txtPerson1.setBackgroundColor(Color.GRAY);
+                txtInfoPerson.setText("Person2 ist dran");
+                txtInfo.setText("'Starten' um Audio aufzunehmen");
+                txtPerson1.setBackgroundColor(Color.LTGRAY);
                 txtPerson2.setBackgroundColor(Color.GREEN);
             }
             Toast.makeText(this, "Recording finished",
@@ -121,7 +129,6 @@ public class AudioActivity extends AppCompatActivity {
             person++;
         }
     }
-
 
     private void MediaRecorderReady() {
         mediaRecorder = new MediaRecorder();
