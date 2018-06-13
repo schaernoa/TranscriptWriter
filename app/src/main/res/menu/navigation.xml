@@ -4,6 +4,7 @@
         android:id="@+id/navigation_audio"
         android:icon="@drawable/ic_audiotrack_black_24dp"
         android:title="@string/title_audio" />
+
     <item
         android:id="@+id/navigation_text"
         android:icon="@drawable/ic_insert_drive_file_black_24dp"
