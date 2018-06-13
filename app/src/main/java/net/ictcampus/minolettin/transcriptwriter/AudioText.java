@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -64,7 +65,8 @@ public class AudioText extends AppCompatActivity {
         String path = Environment.getExternalStorageDirectory().toString() + mainPath + bundle.getString("foldername") + item;
         File directory = new File(path);
         File[] files = directory.listFiles();
-        if (files != null) {
+        if (files.length != 0) {
+            mTextMessage.setVisibility(View.INVISIBLE);
             for (int i = 0; i < files.length; i++)
             {
                 String string = files[i].toString();
@@ -74,7 +76,7 @@ public class AudioText extends AppCompatActivity {
             }
         }
         else {
-
+            mTextMessage.setVisibility(View.VISIBLE);
         }
     }
 }
