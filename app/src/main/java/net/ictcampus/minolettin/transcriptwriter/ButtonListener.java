@@ -20,7 +20,7 @@ public class ButtonListener implements View.OnClickListener {
         if(btn.getText().equals("Starten")){
             aActivity.startRecording("Starten");
         }
-        else{
+        else if (btn.getText().equals("Stoppen")){
             aActivity.startRecording("Stoppen");
         }
     }

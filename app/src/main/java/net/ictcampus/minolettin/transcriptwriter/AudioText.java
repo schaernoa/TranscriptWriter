@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +29,10 @@ import static net.ictcampus.minolettin.transcriptwriter.MainActivity.PFAD_MAIN;
 public class AudioText extends AppCompatActivity {
 
     int i = 0;
+    int k = 1;
 
     private TextView mTextMessage;
+    private Button btnPlayAll;
 
     private String foldername;
     private String audiopfad;
@@ -69,6 +72,15 @@ public class AudioText extends AppCompatActivity {
         foldername = getIntent().getStringExtra("foldername");
 
         mTextMessage = (TextView) findViewById(R.id.message);
+        btnPlayAll = (Button) findViewById(R.id.btnPlayAll);
+
+        btnPlayAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                playAll();
+            }
+        });
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -119,6 +131,7 @@ public class AudioText extends AppCompatActivity {
         }
         else {
             mTextMessage.setVisibility(View.VISIBLE);
+            btnPlayAll.setEnabled(false);
         }
     }
 
@@ -144,9 +157,43 @@ public class AudioText extends AppCompatActivity {
         }
     }
 
+    private void playAll(){
+        if (k <= listView.getCount()){
+            if (k % 2 == 1){
+                audiopfad = Environment.getExternalStorageDirectory().getAbsolutePath() + PFAD_MAIN + "/" + foldername + "/Audio/Person1_" + k + ".amr" ;
+            }
+            else {
+                audiopfad = Environment.getExternalStorageDirectory().getAbsolutePath() + PFAD_MAIN + "/" + foldername + "/Audio/Person2_" + k + ".amr" ;
+            }
+
+            Log.d("Audio",audiopfad);
+            mediaPlayer = new MediaPlayer();
+            try {
+                mediaPlayer.setDataSource(audiopfad);
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            mediaPlayer.start();
+            k++;
+
+            mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    playAll();
+                }
+            });
+        }
+        else {
+            mediaPlayer.stop();
+            k = 1;
+        }
+    }
+
     private void writeFile(String content) {
         File dir = new File (Environment.getExternalStorageDirectory().toString() +
-                mainPath + bundle.getString("foldername") + "/Text/");
+                mainPath + foldername + "/Text/");
         File file = new File(dir, "Text.txt");
 
         try {
