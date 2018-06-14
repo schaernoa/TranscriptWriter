@@ -7,7 +7,6 @@ import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -73,7 +72,6 @@ public class AudioActivity extends AppCompatActivity {
                         .getAbsolutePath() + PFAD_MAIN + "/"
                         + foldername +  "/Audio/Person2_" + person + ".amr";
             }
-            Log.d("PFAD", AudioSavePathInDevice);
 
             MediaRecorderReady();
 

@@ -9,10 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -20,8 +17,6 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static net.ictcampus.minolettin.transcriptwriter.AudioActivity.RequestPermissionCode;
@@ -65,13 +60,6 @@ public class MainActivity extends AppCompatActivity {
             File f = new File(Environment.getExternalStorageDirectory(), PFAD_MAIN);
             if (!f.exists()) {
                 f.mkdirs();
-                Toast.makeText(this, "Ordner erstellt",
-                    Toast.LENGTH_LONG).show();
-
-            }
-            else {
-                Toast.makeText(this, "Ordner wurde bereits erstellt",
-                    Toast.LENGTH_LONG).show();
             }
         }
         else{
