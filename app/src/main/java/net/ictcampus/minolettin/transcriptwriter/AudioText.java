@@ -51,12 +51,12 @@ public class AudioText extends AppCompatActivity {
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.navigation_audio:
+            case R.id.navigation_audio://Navigation Audio
                 listView.setVisibility(View.VISIBLE);
                 mTextMessage.setVisibility(View.INVISIBLE);
                 btnPlayAll.setVisibility(View.VISIBLE);
                 return true;
-            case R.id.navigation_text:
+            case R.id.navigation_text://Navigation Text
                 listView.setVisibility(View.INVISIBLE);
                 mTextMessage.setVisibility(View.VISIBLE);
                 btnPlayAll.setVisibility(View.INVISIBLE);
@@ -70,7 +70,8 @@ public class AudioText extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audio_text);
-        bundle = getIntent().getExtras();
+
+        bundle = getIntent().getExtras();//temp
         foldername = getIntent().getStringExtra("foldername");
         mTextMessage = (TextView) findViewById(R.id.message);
         mTextMessage.setMovementMethod(new ScrollingMovementMethod());
@@ -82,12 +83,15 @@ public class AudioText extends AppCompatActivity {
             }
         });
 
+        /*Listener für Bottom Navigation*/
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        /*Adapter für ListView*/
         adapter = new ArrayAdapter<String>(getApplicationContext(),
                 R.layout.listview_layout, audioList);
         listView = (ListView) findViewById(R.id.audio_list);
+
 
         readDataName("/Audio/");
         writeFile("öppis iche schriibe");//Temporär
