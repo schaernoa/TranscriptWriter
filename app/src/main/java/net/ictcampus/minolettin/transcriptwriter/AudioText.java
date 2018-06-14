@@ -17,7 +17,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import static net.ictcampus.minolettin.transcriptwriter.MainActivity.PFAD_MAIN;
@@ -74,6 +77,8 @@ public class AudioText extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.audio_list);
 
         readDataName("/Audio/");
+        writeFile("öppis iche schriibe");
+        writeFile("no einisch öppis iche schriiibe kolleg");
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -139,4 +144,26 @@ public class AudioText extends AppCompatActivity {
         }
     }
 
+    private void writeFile(String content) {
+        File dir = new File (Environment.getExternalStorageDirectory().toString() +
+                mainPath + bundle.getString("foldername") + "/Text/");
+        File file = new File(dir, "Text.txt");
+
+        try {
+            getApplicationContext();
+            FileOutputStream f = new FileOutputStream(file, true);
+            PrintWriter pw = new PrintWriter(f);
+            pw.println(content);
+            pw.println("");
+            pw.flush();
+            pw.close();
+            f.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.i("Tag", "******* File not found. Did you" +
+                    " add a WRITE_EXTERNAL_STORAGE permission to the   manifest?");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
