@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TranscriptWriter</string>
+    <string name="app_name" id="app_name">TranscriptWriter</string>
     <string name="action_settings">Settings</string>
     <string name="interview_dialog">Neues Interview erstellen</string>
     <string name="positive">OK</string>

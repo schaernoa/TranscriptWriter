@@ -128,8 +128,7 @@ public class AudioText extends AppCompatActivity {
         }
 
         mediaPlayer.start();
-        Toast.makeText(this, "Recording playing",
-                Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Recording playing", Toast.LENGTH_SHORT).show();
     }
 
     private void stopAudio(){
