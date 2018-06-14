@@ -7,6 +7,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,11 +16,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
@@ -27,16 +30,12 @@ import static net.ictcampus.minolettin.transcriptwriter.MainActivity.PFAD_MAIN;
 
 public class AudioText extends AppCompatActivity {
 
-    int i = 0;
-
+    private int i = 0;
     private TextView mTextMessage;
-
     private String foldername;
     private String audiopfad;
     private String filename;
-
     private MediaPlayer mediaPlayer;
-
     private ListView listView;
     private ArrayList<String> audioList = new ArrayList<String>();
     private ArrayAdapter<String> adapter;
@@ -51,9 +50,11 @@ public class AudioText extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.navigation_audio:
                 listView.setVisibility(View.VISIBLE);
+                mTextMessage.setVisibility(View.INVISIBLE);
                 return true;
             case R.id.navigation_text:
                 listView.setVisibility(View.INVISIBLE);
+                mTextMessage.setVisibility(View.VISIBLE);
                 return true;
         }
         return false;
@@ -69,6 +70,7 @@ public class AudioText extends AppCompatActivity {
         foldername = getIntent().getStringExtra("foldername");
 
         mTextMessage = (TextView) findViewById(R.id.message);
+        mTextMessage.setMovementMethod(new ScrollingMovementMethod());
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -77,8 +79,34 @@ public class AudioText extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.audio_list);
 
         readDataName("/Audio/");
-        writeFile("öppis iche schriibe");
-        writeFile("no einisch öppis iche schriiibe kolleg");
+        writeFile("öppis iche schriibe");//Temporär
+        writeFile("no einisch öppis iche schriiibe kolleg");//Temporär
+        readFile();
+
+        /*Pfad von Text Datei*/
+        String path = Environment.getExternalStorageDirectory().toString() + mainPath +
+                foldername + "/Text/Text.txt";
+        File file = new File(path);
+
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader, 8192);
+            String line;
+            while (true) {
+                line = bufferedReader.readLine();
+                if (line == null) break;
+                mTextMessage.append(line + "\n");
+            }
+            inputStreamReader.close();
+            fileInputStream.close();
+            bufferedReader.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -150,7 +178,6 @@ public class AudioText extends AppCompatActivity {
         File file = new File(dir, "Text.txt");
 
         try {
-            getApplicationContext();
             FileOutputStream f = new FileOutputStream(file, true);
             PrintWriter pw = new PrintWriter(f);
             pw.println(content);
@@ -165,5 +192,34 @@ public class AudioText extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private String readFile() {
+        /*Pfad von Text Datei*/
+        String path = Environment.getExternalStorageDirectory().toString() + mainPath +
+                foldername + "/Text/Text.txt";
+        File file = new File(path);
+
+        /*Datei Lesen*/
+        try {
+            FileInputStream fileInputStream = new FileInputStream(file);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader, 8192);
+            String line;
+            while (true) {
+                line = bufferedReader.readLine();
+                if (line == null) break;
+                mTextMessage.append(line + "\n");
+            }
+            inputStreamReader.close();
+            fileInputStream.close();
+            bufferedReader.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }
