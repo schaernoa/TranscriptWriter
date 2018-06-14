@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         /*Adapter erstellen und listView Objekt holen*/
         adapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_list_item_1, interviewNameList);
+                R.layout.listview_layout, interviewNameList);
 
         listView = (ListView) findViewById(R.id.interviewList);
         readDataName();
@@ -128,20 +128,6 @@ public class MainActivity extends AppCompatActivity {
                 RECORD_AUDIO);
         return result == PackageManager.PERMISSION_GRANTED &&
                 result1 == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public void listf(String directoryName, ArrayList<File> files) {
-        File directory = new File(directoryName);
-
-        // get all the files from a directory
-        File[] fList = directory.listFiles();
-        for (File file : fList) {
-            if (file.isFile()) {
-                files.add(file);
-            } else if (file.isDirectory()) {
-                listf(file.getAbsolutePath(), files);
-            }
-        }
     }
 
     public void readDataName() {

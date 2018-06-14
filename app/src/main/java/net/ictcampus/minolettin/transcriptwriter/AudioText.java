@@ -70,7 +70,7 @@ public class AudioText extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         adapter = new ArrayAdapter<String>(getApplicationContext(),
-                android.R.layout.simple_list_item_1, audioList);
+                R.layout.listview_layout, audioList);
         listView = (ListView) findViewById(R.id.audio_list);
 
         readDataName("/Audio/");
@@ -128,12 +128,13 @@ public class AudioText extends AppCompatActivity {
         }
 
         mediaPlayer.start();
-        Toast.makeText(this, "Recording Playing",
+        Toast.makeText(this, "Recording playing",
                 Toast.LENGTH_LONG).show();
     }
 
     private void stopAudio(){
         if (mediaPlayer != null) {
+            Toast.makeText(this, "Recording stopped",Toast.LENGTH_SHORT).show();
             mediaPlayer.stop();
             mediaPlayer.release();
         }
