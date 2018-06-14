@@ -1,6 +1,5 @@
 package net.ictcampus.minolettin.transcriptwriter;
 
-import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
@@ -8,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -127,7 +125,6 @@ public class AudioText extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 filename = audioList.get(position);
-                Log.d("file",filename);
                 if (i % 2 == 0){
                     playAudio(filename);
                 }
@@ -145,13 +142,10 @@ public class AudioText extends AppCompatActivity {
 
     public void readDataName(String item) {
         String path = Environment.getExternalStorageDirectory().toString() + mainPath + bundle.getString("foldername") + item;
-        Log.d("PFAD",path);
-        Log.d("Folder",foldername);
         File directory = new File(path);
         File[] files = directory.listFiles();
         if (files.length != 0) {
             mTextMessage.setVisibility(View.INVISIBLE);
-            Log.d("Status", "Files ok");
             for (int i = 0; i < files.length; i++)
             {
                 String string = files[i].toString();
@@ -197,7 +191,6 @@ public class AudioText extends AppCompatActivity {
                 audiopfad = Environment.getExternalStorageDirectory().getAbsolutePath() + PFAD_MAIN + "/" + foldername + "/Audio/Person2_" + k + ".amr" ;
             }
 
-            Log.d("Audio",audiopfad);
             mediaPlayer = new MediaPlayer();
             try {
                 mediaPlayer.setDataSource(audiopfad);
@@ -237,8 +230,6 @@ public class AudioText extends AppCompatActivity {
             f.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            Log.i("Tag", "******* File not found. Did you" +
-                    " add a WRITE_EXTERNAL_STORAGE permission to the   manifest?");
         } catch (IOException e) {
             e.printStackTrace();
         }

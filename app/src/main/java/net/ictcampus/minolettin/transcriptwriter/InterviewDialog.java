@@ -58,8 +58,6 @@ public class InterviewDialog extends DialogFragment {
                                 audioFile.mkdirs();
                                 File textFile = new File(path + interviewName.getText().toString() + "/", "Text");
                                 textFile.mkdirs();
-                                Toast.makeText(a, "Ordner erstellt",
-                                        Toast.LENGTH_LONG).show();
                                 interviewNameList.add( interviewName.getText().toString() );
                                 Intent myIntent = new Intent(a, AudioActivity.class);
                                 myIntent.putExtra("foldername", interviewName.getText().toString());
