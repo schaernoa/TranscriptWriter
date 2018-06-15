@@ -17,6 +17,7 @@ public class ButtonListener implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        // Schaut, welcher Text auf Button ist, ruft entfernte Methode auf
         if(btn.getText().equals("Starten")){
             aActivity.startRecording("Starten");
         }

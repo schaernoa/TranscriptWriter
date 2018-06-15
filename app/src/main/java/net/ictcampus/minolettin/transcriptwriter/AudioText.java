@@ -97,6 +97,11 @@ public class AudioText extends AppCompatActivity {
         writeFile("Zeile Zwei Schreiben");//Temporär
         readFile();
 
+        /*Pfad von Text Datei*/
+        String path = Environment.getExternalStorageDirectory().toString() + mainPath +
+                foldername + "/Text/Text.txt";
+        File file = new File(path);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -134,6 +139,9 @@ public class AudioText extends AppCompatActivity {
         }
     }
 
+    /* Spielt Audiodatei ab
+    Als Parameter wird der Dateiname mitgegeben
+    */
     private void playAudio(String filename){
         audiopfad = Environment.getExternalStorageDirectory().getAbsolutePath() + PFAD_MAIN + "/" + foldername + "/Audio/" + filename;
         mediaPlayer = new MediaPlayer();
@@ -148,6 +156,7 @@ public class AudioText extends AppCompatActivity {
         Toast.makeText(this, "Recording playing", Toast.LENGTH_SHORT).show();
     }
 
+    // Stoppt die Wiedergabe der Audiodatei
     private void stopAudio(){
         if (mediaPlayer != null) {
             Toast.makeText(this, "Recording stopped",Toast.LENGTH_SHORT).show();
@@ -156,6 +165,7 @@ public class AudioText extends AppCompatActivity {
         }
     }
 
+    // Spielt alle vorhanden Audiodateien in der richtigen Reihenfolge ab
     private void playAll(){
         if (k <= listView.getCount()){
             if (k % 2 == 1){
@@ -164,7 +174,6 @@ public class AudioText extends AppCompatActivity {
             else {
                 audiopfad = Environment.getExternalStorageDirectory().getAbsolutePath() + PFAD_MAIN + "/" + foldername + "/Audio/Person2_" + k + ".amr" ;
             }
-
             mediaPlayer = new MediaPlayer();
             try {
                 mediaPlayer.setDataSource(audiopfad);
@@ -175,7 +184,6 @@ public class AudioText extends AppCompatActivity {
 
             mediaPlayer.start();
             k++;
-
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mp) {

@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
+
+import static android.Manifest.permission.INTERNET;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static net.ictcampus.minolettin.transcriptwriter.AudioActivity.RequestPermissionCode;
@@ -41,11 +43,16 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Neues InterviewDialog Objekt
-                 * Parameter: ArrayList -> Interview Namen*/
-                InterviewDialog dialog = new InterviewDialog(interviewNameList);
-                /*Dialog anzeigen*/
-                dialog.show(getFragmentManager(), "NoticeDialogFragment");
+                if (checkPermission()){
+                    /*Neues InterviewDialog Objekt
+                     * Parameter: ArrayList -> Interview Namen*/
+                    InterviewDialog dialog = new InterviewDialog(interviewNameList);
+                    /*Dialog anzeigen*/
+                    dialog.show(getFragmentManager(), "NoticeDialogFragment");
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Permissions wurden abgelehnt", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
