@@ -13,6 +13,7 @@ public class Uhr extends TimerTask {
         txtV = tv;
     }
 
+    // Stellt die Zeit als "Stoppuhr" dar
     @Override
     public void run() {
         handler.post(new Runnable() {

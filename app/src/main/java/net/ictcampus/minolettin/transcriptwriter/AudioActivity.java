@@ -20,18 +20,13 @@ public class AudioActivity extends AppCompatActivity {
 
     private TextView txtTime, txtPerson1, txtPerson2, txtInfo, txtInfoPerson;
     private Button btnStarten;
-
     private Timer timer;
     private Uhr uhr;
-
-    MediaRecorder mediaRecorder;
+    private MediaRecorder mediaRecorder;
     public static final int RequestPermissionCode = 1;
     private FloatingActionButton fabSafe;
-
     private int person = 1;
-    String AudioSavePathInDevice;
-    private String folder_main = "TranscriptWriter";
-
+    private String AudioSavePathInDevice;
     private String foldername;
 
 
@@ -57,9 +52,11 @@ public class AudioActivity extends AppCompatActivity {
         foldername = intent.getStringExtra("foldername");
 
         btnStarten.setOnClickListener(new ButtonListener(btnStarten,this));
-        fabSafe.setOnClickListener(new FABListener(folder_main,this, foldername));
+        fabSafe.setOnClickListener(new FABListener(this, foldername));
     }
 
+    /* Startet die Aufnahme (+ Speicherung) und managed die Info Felder
+    Wird von Buttonlistener aufgerufen*/
     public void startRecording(String button) {
         if (button.equals("Starten")) {
             if (person % 2 == 1) {
@@ -128,6 +125,8 @@ public class AudioActivity extends AppCompatActivity {
         }
     }
 
+    /* Erstellt pro Aufnahme einen neuen Mediarecorder
+    Braucht Mikrofon und setzt Formate*/
     private void MediaRecorderReady() {
         mediaRecorder = new MediaRecorder();
         mediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
