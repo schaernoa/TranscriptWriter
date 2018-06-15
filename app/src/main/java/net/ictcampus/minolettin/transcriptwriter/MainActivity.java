@@ -26,9 +26,9 @@ import static net.ictcampus.minolettin.transcriptwriter.AudioActivity.RequestPer
 public class MainActivity extends AppCompatActivity {
 
     /*Instanz variablen*/
-    ArrayList<String> interviewNameList = new ArrayList<String>();
-    ArrayAdapter<String> adapter;
-    ListView listView;
+    private ArrayList<String> interviewNameList = new ArrayList<String>();
+    private ArrayAdapter<String> adapter;
+    private ListView listView;
     public static final String PFAD_MAIN = "/TranscriptWriter";
 
     @Override
