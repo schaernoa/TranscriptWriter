@@ -32,6 +32,7 @@ public class AudioText extends AppCompatActivity {
     private int i = 0;
     private int k = 1;
     private TextView mTextMessage;
+    private TextView audio_text;
     private Button btnPlayAll;
     private String foldername;
     private String audiopfad;
@@ -73,6 +74,7 @@ public class AudioText extends AppCompatActivity {
         foldername = getIntent().getStringExtra("foldername");
         mTextMessage = (TextView) findViewById(R.id.message);
         mTextMessage.setMovementMethod(new ScrollingMovementMethod());
+        audio_text = (TextView) findViewById(R.id.audio_text);
         btnPlayAll = (Button) findViewById(R.id.btnPlayAll);
         btnPlayAll.setOnClickListener(new View.OnClickListener() {
             @Override
