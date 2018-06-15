@@ -31,7 +31,6 @@ public class AudioText extends AppCompatActivity {
 
     private int i = 0;
     private int k = 1;
-    private TextView mTextMessage;
     private TextView audio_text;
     private Button btnPlayAll;
     private String foldername;
@@ -52,13 +51,13 @@ public class AudioText extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.navigation_audio://Navigation Audio
                 listView.setVisibility(View.VISIBLE);
-                mTextMessage.setVisibility(View.INVISIBLE);
                 btnPlayAll.setVisibility(View.VISIBLE);
+                audio_text.setVisibility(View.INVISIBLE);
                 return true;
             case R.id.navigation_text://Navigation Text
                 listView.setVisibility(View.INVISIBLE);
-                mTextMessage.setVisibility(View.VISIBLE);
                 btnPlayAll.setVisibility(View.INVISIBLE);
+                audio_text.setVisibility(View.VISIBLE);
                 return true;
         }
         return false;
@@ -72,9 +71,9 @@ public class AudioText extends AppCompatActivity {
 
         bundle = getIntent().getExtras();//temp
         foldername = getIntent().getStringExtra("foldername");
-        mTextMessage = (TextView) findViewById(R.id.message);
-        mTextMessage.setMovementMethod(new ScrollingMovementMethod());
         audio_text = (TextView) findViewById(R.id.audio_text);
+        audio_text.setMovementMethod(new ScrollingMovementMethod());
+        audio_text.setVisibility(View.INVISIBLE);
         btnPlayAll = (Button) findViewById(R.id.btnPlayAll);
         btnPlayAll.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,34 +93,9 @@ public class AudioText extends AppCompatActivity {
 
 
         readDataName("/Audio/");
-        writeFile("öppis iche schriibe");//Temporär
-        writeFile("no einisch öppis iche schriiibe kolleg");//Temporär
+        writeFile("Zeile 1 Schreiben");//Temporär
+        writeFile("Zeile Zwei Schreiben");//Temporär
         readFile();
-
-        /*Pfad von Text Datei*/
-        String path = Environment.getExternalStorageDirectory().toString() + mainPath +
-                foldername + "/Text/Text.txt";
-        File file = new File(path);
-
-        try {
-            FileInputStream fileInputStream = new FileInputStream(file);
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader, 8192);
-            String line;
-            while (true) {
-                line = bufferedReader.readLine();
-                if (line == null) break;
-                mTextMessage.append(line + "\n");
-            }
-            inputStreamReader.close();
-            fileInputStream.close();
-            bufferedReader.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
@@ -147,7 +121,6 @@ public class AudioText extends AppCompatActivity {
         File directory = new File(path);
         File[] files = directory.listFiles();
         if (files.length != 0) {
-            mTextMessage.setVisibility(View.INVISIBLE);
             for (int i = 0; i < files.length; i++)
             {
                 String string = files[i].toString();
@@ -157,7 +130,6 @@ public class AudioText extends AppCompatActivity {
             }
         }
         else {
-            mTextMessage.setVisibility(View.VISIBLE);
             btnPlayAll.setEnabled(false);
         }
     }
@@ -237,7 +209,7 @@ public class AudioText extends AppCompatActivity {
         }
     }
 
-    private String readFile() {
+    private void readFile() {
         /*Pfad von Text Datei*/
         String path = Environment.getExternalStorageDirectory().toString() + mainPath +
                 foldername + "/Text/Text.txt";
@@ -252,7 +224,7 @@ public class AudioText extends AppCompatActivity {
             while (true) {
                 line = bufferedReader.readLine();
                 if (line == null) break;
-                mTextMessage.append(line + "\n");
+                audio_text.append(line + "\n");
             }
             inputStreamReader.close();
             fileInputStream.close();
@@ -263,6 +235,5 @@ public class AudioText extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "";
     }
 }
