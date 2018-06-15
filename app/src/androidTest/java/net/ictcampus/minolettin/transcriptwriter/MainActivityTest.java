@@ -30,7 +30,6 @@ public class MainActivityTest{
 
     @Test
     public void testInterviewListView_countShouldBeZero(){
-
         final int[] counts = new int[1];
         onView(withId(R.id.interviewList)).check(matches(new TypeSafeMatcher<View>() {
             @Override
@@ -44,6 +43,9 @@ public class MainActivityTest{
 
             }
         }));
-        assertEquals(1, counts[0]);
+        /* "expected" muss der Anzahl vorhandenen Listenelementen entsprechen
+        Zu Beginn 0 --> (Beim ersten Start der App)
+        */
+        assertEquals(0, counts[0]);
     }
 }
